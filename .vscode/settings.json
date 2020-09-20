@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "c:\\Users\\Mejabi Oluwadurotimi\\Desktop\\Important\\Projects\\Coding\\youtube_downloader\\venv\\Scripts\\python.exe"
+    "python.pythonPath": "C:\\Users\\Mejabi Oluwadurotimi\\AppData\\Local\\Programs\\Python\\Python38-32\\python.exe",
+    "python.linting.enabled": true
 }
