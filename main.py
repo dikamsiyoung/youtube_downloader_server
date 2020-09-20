@@ -1,5 +1,6 @@
 # Import dependencies
 from selenium import webdriver
+from IPython import get_ipython
 import time
 import pytube
 import os
@@ -49,13 +50,21 @@ def get_all_links():
     return driver.find_elements_by_id("video-title")
 
 
+def seconds_converter(string_time):
+    time_lst = string_time.split(':')
+    hour = int(time_lst[0])
+    minute = int(time_lst[1])
+    second = int(time_lst[2])
+    return hour*3600 + minute*60 + second
+
+
 def create_directory(channel_name):
     channel_path = f'C:/Users/Mejabi Oluwadurotimi/Downloads/Youtube_Videos/{channel_name}'
 
     # Create new folder
     if not os.path.exists(channel_path):
         os.makedirs(channel_path)
-    
+
     return channel_path
 
 
@@ -112,7 +121,18 @@ def download_videos():
         return jsonify({"res":"done"})
 
 
-
+@app.route("/download_snippet", methods=['GET', 'POST'])
+def download_snippet(video_link, start, end, filename):
+    if request.method == "GET":
+        return jsonify({"response": "Channel Details endpoint"})
+    elif request.method == "POST":
+        get_ipython().getoutput('pip install youtube-dl')
+        get_ipython().getoutput('pip install ffmpeg')
+        start = seconds_converter(start)
+        end = seconds_converter(end)
+        url = get_ipython().getoutput('youtube-dl -f 22 -g "{video_link}"')
+        result = get_ipython().getoutput(f'ffmpeg -ss {start} -i "{url[0]}" -t {end} -c copy "{filename}"')
+        return jsonify({"res": "done"})
 
 
 # driver.quit()
