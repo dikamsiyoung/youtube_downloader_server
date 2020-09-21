@@ -122,16 +122,16 @@ def download_videos():
 
 
 @app.route("/download_snippet", methods=['GET', 'POST'])
-def download_snippet(video_link, start, end, filename):
+def download_snippet(video_link, start, duration, filename):
     if request.method == "GET":
         return jsonify({"response": "Channel Details endpoint"})
     elif request.method == "POST":
         get_ipython().getoutput('pip install youtube-dl')
         get_ipython().getoutput('pip install ffmpeg')
         start = seconds_converter(start)
-        end = seconds_converter(end)
+        duration = seconds_converter(duration)
         url = get_ipython().getoutput('youtube-dl -f 22 -g "{video_link}"')
-        result = get_ipython().getoutput(f'ffmpeg -ss {start} -i "{url[0]}" -t {end} -c copy "{filename}"')
+        result = get_ipython().getoutput(f'ffmpeg -ss {start} -i "{url[0]}" -t {duration} -c copy "{filename}"')
         return jsonify({"res": "done"})
 
 
